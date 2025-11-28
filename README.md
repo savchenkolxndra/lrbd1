@@ -216,7 +216,7 @@ CREATE INDEX idx_course_search
 SELECT * FROM v_courses_active
 WHERE search_vector @@ plainto_tsquery('postgresql');
 
-### Робота з БД через C# (Repository + Unit of Work)
+##  2. Робота з БД через C# (Repository + Unit of Work)
 
 **Патерни**
 
@@ -242,20 +242,23 @@ EnrollStudentAsync(...) – викликає fn_enroll_student(...)
 UnenrollStudentAsync(...) – викликає fn_unenroll_student(...)
 
 **Unit of Work (PgUnitOfWork)**
+
 Відповідає за:
 
-створення та відкриття NpgsqlConnection;
+- створення та відкриття NpgsqlConnection;
 
-початок транзакції (NpgsqlTransaction);
+- початок транзакції (NpgsqlTransaction);
 
-надання доступу до репозиторіїв:
+- надання доступу до репозиторіїв:
 
-ICourseRepository Courses { get; }
+--ICourseRepository Courses { get; }
 
-IEnrollmentRepository Enrollments { get; }
+--IEnrollmentRepository Enrollments { get; }
 
-фіксацію змін через CommitAsync().
+- фіксацію змін через CommitAsync().
+
 **Приклад використання**
+
 await using var uow = new PgUnitOfWork(ConnectionString);
 
 // 1. Отримати активні курси (через VIEW)
