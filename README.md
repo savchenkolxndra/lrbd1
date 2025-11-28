@@ -262,27 +262,40 @@ UnenrollStudentAsync(...) – викликає fn_unenroll_student(...)
 await using var uow = new PgUnitOfWork(ConnectionString);
 
 // 1. Отримати активні курси (через VIEW)
+
 var courses = await uow.Courses.GetActiveCoursesAsync();
+
 foreach (var c in courses)
+
 {
+
     Console.WriteLine($"[{c.Id}] {c.Title} ({c.Level})");
+
 }
 
 // 2. Записати студента на курс (через stored function)
+
 int enrollmentId = await uow.Enrollments.EnrollStudentAsync(
+
     courseId: 1,
     studentId: 4,
     actorId: 1 // admin
+    
 );
 
 // 3. Подивитися детальні записи зарахувань (через VIEW)
+
 var enrollments = await uow.Enrollments.GetEnrollmentsAsync();
+
 foreach (var e in enrollments)
 {
+
     Console.WriteLine($"[{e.EnrollmentId}] {e.StudentName} → {e.CourseTitle} ({e.Status})");
+    
 }
 
 // 4. Зафіксувати транзакцію
+
 await uow.CommitAsync();
 
 
